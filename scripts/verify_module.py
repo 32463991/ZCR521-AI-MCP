@@ -94,6 +94,8 @@ def main() -> None:
             raise SystemExit("安装脚本未尝试跳转官方 TG")
         if "sepolicy.rule" in names:
             raise SystemExit("模块仍包含仅注释的 sepolicy.rule")
+        if any(name == "licenses/" or name.startswith("licenses/") for name in names):
+            raise SystemExit("模块仍包含 licenses 子目录")
         if "post-fs-data.sh" in names:
             script = archive.read("post-fs-data.sh").decode("utf-8")
             forbidden = ("sleep 30", "zcr521d supervisor", "setenforce 0")

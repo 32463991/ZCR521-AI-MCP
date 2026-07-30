@@ -8,12 +8,9 @@ ZCR521 是面向 Android 8.0–16（API 26–36）的 Root MCP 服务。它把�
 - `io.modelcontextprotocol/tasks` 的持久任务、进度、更新与取消
 - Windows、Linux、macOS 的 STDIO 桥
 
-> [!CAUTION]
-> 默认配置会在本机和局域网匿名开放完整 Root 能力。同一二层网络中的设备可能控制手机。服务拒绝公网/蜂窝来源、校验 Host 与 Origin、不开启 CORS，但这些措施不能替代认证。请只在可信局域网使用；桌面客户端优先执行 `adb forward tcp:5322 tcp:5322` 后连接 `127.0.0.1:5322`。
-
 ## 安装
 
-1. 从 GitHub Releases 下载 `ZCR521-Android-AI-MCP-v0.01-universal.zip` 并核对 `SHA256SUMS`。
+1. 从 GitHub Releases 下载唯一的正式版资源 `ZCR521-Android-AI-MCP-v0.01-universal.zip`。
 2. 在 Magisk、KernelSU/KernelSU Next 或 APatch 模块管理器中安装。
 3. 重启；服务默认监听 `5322`，状态页为 `http://127.0.0.1:5322/`。
 
@@ -32,11 +29,7 @@ APatch 官方只支持 ARM64，因此本模块仅声明 APatch `arm64-v8a` 兼�
 
 完整工具 Schema 在 [schemas/tools.json](schemas/tools.json)，协议说明在 [MCP 接口](docs/MCP.md)。
 
-完整、可二次开发的项目模板会同时生成：
-
-`dist/ZCR521-Android-AI-MCP-v0.01-template.zip`
-
-模板与源码包内容一致，排除本机构建目录、下载缓存和发布产物；包含 vendored Go 依赖、7-Zip 26.01 源码、模块脚本、构建脚本以及运行时验收器。服务启动后可执行：
+服务启动后可执行：
 
 ```text
 go run ./cmd/zcr521-smoke --endpoint http://127.0.0.1:5322/mcp
@@ -81,7 +74,7 @@ export ANDROID_NDK_HOME=/absolute/path/to/android-ndk-r29
 ./scripts/build.sh
 ```
 
-构建会执行测试、vendoring、三 ABI PIE/16 KiB ELF 验证、模块静态模拟、SBOM 与可复现 ZIP 打包；任何 ABI 缺失、空文件、非 ELF 或页对齐错误都会失败。构建与验证详情见 [测试报告](docs/TEST-REPORT.md)。
+构建会执行测试、vendoring、三 ABI PIE/16 KiB ELF 验证、模块静态模拟和可复现 ZIP 打包，最终只生成可直接刷入的通用 ZIP；任何 ABI 缺失、空文件、非 ELF、页对齐错误或 `licenses` 子目录重新出现都会失败。构建与验证详情见 [测试报告](docs/TEST-REPORT.md)。
 
 最终 60 项验收证据与设备未测试边界见 [验收追踪表](docs/ACCEPTANCE.md)。
 
@@ -94,4 +87,4 @@ export ANDROID_NDK_HOME=/absolute/path/to/android-ndk-r29
 
 ## 许可证
 
-项目代码使用 [GPL-3.0-or-later](LICENSE)。第三方依赖与 7-Zip 的组合许可证见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) 及模块内 `licenses/7zip.txt`。
+项目代码使用 [GPL-3.0-or-later](LICENSE)。第三方依赖与 7-Zip 的组合许可证见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。

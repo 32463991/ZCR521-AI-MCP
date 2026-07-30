@@ -109,7 +109,7 @@ Windows 当前令牌没有创建符号链接的权限，因此“已有符号链
 | armeabi-v7a | 40 | 通过 | 16,384 | 26 |
 | x86_64 | 62 | 通过 | 16,384 | 26 |
 
-模块 ZIP 的路径、LF、Unix mode、`META-INF` 安装入口、生命周期脚本、三 ABI 二进制和许可证由 `scripts/verify_module.py` 检查。构建完成后以相同 epoch 连续打包两次并比较 SHA-256；最终哈希写入 `dist/SHA256SUMS`。
+模块 ZIP 的路径、LF、Unix mode、`META-INF` 安装入口、生命周期脚本和三 ABI 二进制由 `scripts/verify_module.py` 检查；`licenses` 子目录存在时直接拒绝构建。构建最终只保留可直接刷入的通用 ZIP。
 
 ## 浏览器 QA
 

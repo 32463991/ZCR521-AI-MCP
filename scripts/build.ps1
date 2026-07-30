@@ -142,23 +142,6 @@ try {
         Remove-Item Env:ANDROID_API_LEVEL, Env:SEVENZIP_OUT_DIR -ErrorAction SilentlyContinue
     }
 
-    $BridgeLdFlags = "-s -w -buildid= -X github.com/zcr521/android-ai-mcp/internal/buildinfo.Version=$Version -X github.com/zcr521/android-ai-mcp/internal/buildinfo.Commit=$Commit -X github.com/zcr521/android-ai-mcp/internal/buildinfo.BuildTime=$BuildTime"
-    $BridgeOut = Join-Path $Build "bridge"
-    New-Item -ItemType Directory -Force -Path $BridgeOut | Out-Null
-    foreach ($hostTarget in @(
-        @{ GOOS="windows"; GOARCH="amd64"; Name="zcr521-bridge-windows-amd64.exe" },
-        @{ GOOS="linux"; GOARCH="amd64"; Name="zcr521-bridge-linux-amd64" },
-        @{ GOOS="linux"; GOARCH="arm64"; Name="zcr521-bridge-linux-arm64" },
-        @{ GOOS="darwin"; GOARCH="amd64"; Name="zcr521-bridge-macos-amd64" },
-        @{ GOOS="darwin"; GOARCH="arm64"; Name="zcr521-bridge-macos-arm64" }
-    )) {
-        $env:GOOS = $hostTarget.GOOS
-        $env:GOARCH = $hostTarget.GOARCH
-        $env:CGO_ENABLED = "0"
-        & $Go build -mod=vendor -trimpath -ldflags $BridgeLdFlags -o (Join-Path $BridgeOut $hostTarget.Name) ./cmd/zcr521-bridge
-    }
-    Remove-Item Env:GOOS, Env:GOARCH, Env:CGO_ENABLED -ErrorAction SilentlyContinue
-
     if (Test-Path -LiteralPath $ModuleStage) {
         Remove-Item -LiteralPath $ModuleStage -Recurse -Force
     }
@@ -169,12 +152,8 @@ try {
         Copy-Item -LiteralPath (Join-Path $AndroidOut ($target.ABI + "\zcr521d")) -Destination (Join-Path $TargetDir "zcr521d")
         Copy-Item -LiteralPath (Join-Path $Repo ("third_party\7zip\out\" + $target.ABI + "\7zz")) -Destination (Join-Path $TargetDir "7zz")
     }
-    New-Item -ItemType Directory -Force -Path (Join-Path $ModuleStage "licenses") | Out-Null
-    Copy-Item -LiteralPath (Join-Path $Repo "third_party\7zip\out\LICENSE-7ZIP.txt") -Destination (Join-Path $ModuleStage "licenses\7zip.txt")
-    Copy-Item -LiteralPath (Join-Path $Repo "LICENSE") -Destination (Join-Path $ModuleStage "licenses\GPL-3.0-or-later.txt")
-    Copy-Item -LiteralPath (Join-Path $Repo "THIRD_PARTY_NOTICES.md") -Destination (Join-Path $ModuleStage "licenses\THIRD_PARTY_NOTICES.md")
 
-    & $PythonPath (Join-Path $Repo "scripts\package.py") --repo $Repo --module-stage $ModuleStage --bridge-dir $BridgeOut --dist $Dist --version $Version --epoch $SourceDateEpoch
+    & $PythonPath (Join-Path $Repo "scripts\package.py") --module-stage $ModuleStage --dist $Dist --version $Version --epoch $SourceDateEpoch
     if ($LASTEXITCODE -ne 0) {
         throw "Packaging failed."
     }

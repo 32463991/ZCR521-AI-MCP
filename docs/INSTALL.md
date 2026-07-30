@@ -4,7 +4,7 @@
 
 - Android 8.0 / API 26 或更高。
 - 已安装 Magisk、KernelSU/KernelSU Next，或 ARM64 设备上的 APatch。
-- 安装包必须是 `ZCR521-Android-AI-MCP-v0.01-universal.zip`，并与 `SHA256SUMS` 匹配。
+- 安装包必须是正式版本中唯一的资源 `ZCR521-Android-AI-MCP-v0.01-universal.zip`。
 
 模块不依赖 Zygisk。`post-fs-data.sh` 只做常量时间的目录准备，不启动服务；非阻塞启动位于 `service.sh`。
 

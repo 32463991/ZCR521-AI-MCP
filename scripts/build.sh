@@ -48,7 +48,7 @@ case "$(uname -s)" in
   *) printf '%s\n' "不支持的构建主机；Windows 请运行 build.ps1。" >&2; exit 2 ;;
 esac
 TOOLCHAIN="$NDK/toolchains/llvm/prebuilt/$HOST_TAG/bin"
-mkdir -p build/android build/bridge dist
+mkdir -p build/android dist
 
 build_android() {
   abi=$1
@@ -75,19 +75,6 @@ if [ "$SKIP_7ZIP" != "1" ]; then
     third_party/7zip/build-android.sh
 fi
 
-build_bridge() {
-  host_os=$1
-  host_arch=$2
-  name=$3
-  GOOS="$host_os" GOARCH="$host_arch" CGO_ENABLED=0 \
-    "$GO_BIN" build -mod=vendor -trimpath -ldflags "$LD_COMMON" -o "build/bridge/$name" ./cmd/zcr521-bridge
-}
-build_bridge windows amd64 zcr521-bridge-windows-amd64.exe
-build_bridge linux amd64 zcr521-bridge-linux-amd64
-build_bridge linux arm64 zcr521-bridge-linux-arm64
-build_bridge darwin amd64 zcr521-bridge-macos-amd64
-build_bridge darwin arm64 zcr521-bridge-macos-arm64
-
 rm -rf build/module
 cp -R module build/module
 for abi in arm64-v8a armeabi-v7a x86_64; do
@@ -95,10 +82,6 @@ for abi in arm64-v8a armeabi-v7a x86_64; do
   cp "build/android/$abi/zcr521d" "build/module/bin/$abi/zcr521d"
   cp "third_party/7zip/out/$abi/7zz" "build/module/bin/$abi/7zz"
 done
-mkdir -p build/module/licenses
-cp third_party/7zip/out/LICENSE-7ZIP.txt build/module/licenses/7zip.txt
-cp LICENSE build/module/licenses/GPL-3.0-or-later.txt
-cp THIRD_PARTY_NOTICES.md build/module/licenses/THIRD_PARTY_NOTICES.md
 
-"$PYTHON" scripts/package.py --repo "$ROOT" --module-stage "$ROOT/build/module" --bridge-dir "$ROOT/build/bridge" --dist "$ROOT/dist" --version "$VERSION" --epoch "$SOURCE_DATE_EPOCH"
+"$PYTHON" scripts/package.py --module-stage "$ROOT/build/module" --dist "$ROOT/dist" --version "$VERSION" --epoch "$SOURCE_DATE_EPOCH"
 "$PYTHON" scripts/verify_module.py "$ROOT/dist/ZCR521-Android-AI-MCP-v$VERSION-universal.zip"
