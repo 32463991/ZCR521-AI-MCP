@@ -107,7 +107,7 @@ for requested_abi in $REQUESTED_ABIS; do
   esac
 done
 
-"$SCRIPT_DIR/fetch-source.sh" "$SOURCE_DIR" >/dev/null
+sh "$SCRIPT_DIR/fetch-source.sh" "$SOURCE_DIR" >/dev/null
 
 [ -n "$BUILD_DIR" ] && [ "$BUILD_DIR" != "/" ] ||
   fail "拒绝使用不安全的构建目录"
