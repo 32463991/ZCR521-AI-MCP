@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>ZCR521 AI MCP</title>
+  <link rel="stylesheet" href="/assets/status.css">
+  <script src="/assets/status.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div class="mark" aria-hidden="true">Z</div>
+      <div>
+        <p class="eyebrow">ANDROID ROOT · MCP SERVER</p>
+        <h1>ZCR521 AI MCP</h1>
+        <p class="subtitle">设备状态只读视图</p>
+      </div>
+      <div class="state" id="service-state" data-state="loading" aria-live="polite">正在读取</div>
+    </header>
+
+    <section class="warning" aria-labelledby="warning-title">
+      <strong id="warning-title">匿名 Root 局域网访问已启用</strong>
+      <span id="security-warning">同一网络中的设备可能获得完整设备控制权。请勿连接不可信 Wi-Fi，也不要将 5322 端口暴露到公网。</span>
+    </section>
+
+    <section class="primary card" aria-labelledby="connection-title">
+      <div>
+        <p class="label" id="connection-title">MCP 连接地址</p>
+        <p class="address" id="mcp-address">—</p>
+      </div>
+      <p class="hint">Streamable HTTP · 端口 5322</p>
+    </section>
+
+    <section class="grid" aria-label="设备与服务状态">
+      <article class="card metric">
+        <p class="label">Android 版本</p>
+        <p class="value" id="android-version">—</p>
+      </article>
+      <article class="card metric">
+        <p class="label">Root 状态</p>
+        <p class="value" id="root-available">—</p>
+      </article>
+      <article class="card metric">
+        <p class="label">Root 框架</p>
+        <p class="value" id="root-framework">—</p>
+      </article>
+      <article class="card metric">
+        <p class="label">模块版本</p>
+        <p class="value" id="module-version">—</p>
+      </article>
+      <article class="card metric">
+        <p class="label">已运行</p>
+        <p class="value" id="uptime">—</p>
+      </article>
+      <article class="card metric">
+        <p class="label">当前任务</p>
+        <p class="value" id="task-count">—</p>
+      </article>
+    </section>
+
+    <section class="card directory" aria-labelledby="directory-title">
+      <p class="label" id="directory-title">默认工作目录</p>
+      <p class="path" id="workdir">—</p>
+    </section>
+
+    <footer>
+      <span id="last-updated">尚未更新</span>
+      <span>页面隐藏时停止刷新</span>
+    </footer>
+  </main>
+</body>
+</html>

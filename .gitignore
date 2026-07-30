@@ -1,0 +1,12 @@
+/.tools/
+/dist/
+/build/
+/module/bin/
+/third_party/7zip/.cache/
+/third_party/7zip/build/
+/third_party/7zip/out/
+*.tmp
+*.log
+__pycache__/
+*.pyc
+.DS_Store

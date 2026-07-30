@@ -1,0 +1,34 @@
+#!/sbin/sh
+
+umask 022
+OUTFD="$2"
+ZIPFILE="$3"
+export OUTFD ZIPFILE
+
+ui_print() {
+  case "${OUTFD:-}" in
+    ''|*[!0-9]*)
+      printf '%s\n' "$1"
+      ;;
+    *)
+      printf 'ui_print %s\nui_print\n' "$1" >&$OUTFD
+      ;;
+  esac
+}
+
+zcr_require_manager_installer() {
+  ui_print "ZCR521 需要 Magisk 20.4+、KernelSU 或 APatch 的模块安装器"
+  exit 1
+}
+
+if [ -r /data/adb/magisk/util_functions.sh ]; then
+  . /data/adb/magisk/util_functions.sh
+elif [ -r /data/adb/ksu/bin/util_functions.sh ]; then
+  . /data/adb/ksu/bin/util_functions.sh
+else
+  zcr_require_manager_installer
+fi
+
+command -v install_module >/dev/null 2>&1 || zcr_require_manager_installer
+install_module
+exit 0

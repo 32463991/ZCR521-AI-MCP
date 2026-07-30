@@ -1,0 +1,13 @@
+{
+  "package_name": "com.example.fixture",
+  "split_apks": [
+    {"file": "base.apk", "id": "base"},
+    {"file": "config.arm64_v8a.apk", "id": "config.arm64_v8a"}
+  ],
+  "expansion_files": [
+    {
+      "file": "Android/obb/com.example.fixture/main.1.com.example.fixture.obb",
+      "install_path": "/storage/emulated/0/Android/obb/com.example.fixture/main.1.com.example.fixture.obb"
+    }
+  ]
+}
