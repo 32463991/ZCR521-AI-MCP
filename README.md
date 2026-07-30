@@ -10,7 +10,7 @@ ZCR521 是面向 Android 8.0–16（API 26–36）的 Root MCP 服务。它把�
 
 ## 安装
 
-1. 从 GitHub Releases 下载唯一的正式版资源 `ZCR521-Android-AI-MCP-v0.01-universal.zip`。
+1. 从 GitHub Releases 下载唯一的正式版资源 `ZCR521-Android-AI-MCP.zip`。
 2. 在 Magisk、KernelSU/KernelSU Next 或 APatch 模块管理器中安装。
 3. 重启；服务默认监听 `5322`，状态页为 `http://127.0.0.1:5322/`。
 
